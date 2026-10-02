@@ -1,0 +1,58 @@
+/* 쇼핑 리스트 Streamlit 버전 스타일 (웹 버전 style.css와 같은 색·크기 기준) */
+
+.block-container { max-width: 560px; padding-top: 2.5rem; }
+h1 { word-break: keep-all; }
+
+.item-name { overflow-wrap: anywhere; }
+.item-name.checked { color: #6b7280; text-decoration: line-through; }
+div[data-testid="stColumn"] div[data-testid="stMarkdownContainer"] p { margin-bottom: 0; }
+.empty-message { text-align: center; color: #6b7280; padding: 2.5rem 0; }
+.item-count { color: #6b7280; font-size: 0.875rem; padding-top: 0.5rem; }
+
+/* 화면 낭독기 전용 (개수 변경 알림 영역) */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* 좁은 화면(640px 미만)에서도 Streamlit 기본 동작인 세로 쌓기 대신 한 줄 유지 (PRD 5장) */
+div[data-testid="stHorizontalBlock"] { align-items: center; flex-wrap: nowrap !important; gap: 0.5rem; }
+div[data-testid="stColumn"] { min-width: 0 !important; }
+
+/* 체크박스 칸은 44px 고정, 수정/삭제 칸은 글자 폭만큼, 이름 칸이 나머지를 채움 */
+div[data-testid="stColumn"]:has(> div > [class*="st-key-check_"]) {
+  flex: 0 0 44px !important; width: 44px !important;
+}
+div[data-testid="stColumn"]:has(> div > [class*="st-key-edit_"]),
+div[data-testid="stColumn"]:has(> div > [class*="st-key-delete_"]) {
+  flex: 0 0 auto !important; width: auto !important;
+}
+div[data-testid="stColumn"] button { min-height: 40px; min-width: 44px; padding: 0 0.75rem; white-space: nowrap; }
+
+/* 체크박스: 터치 영역 40px, 박스 22px, 테두리 대비 3.39:1 (PRD 5장, WCAG 1.4.11) */
+[class*="st-key-check_"] label {
+  display: flex; justify-content: center; align-items: center;
+  min-width: 40px; min-height: 40px; margin: 0; padding: 0; cursor: pointer;
+}
+[class*="st-key-check_"] label > div:not([data-testid]) {
+  width: 22px; height: 22px; margin: 0;
+  border: 2px solid #858c98 !important; border-radius: 6px;
+}
+[class*="st-key-check_"] label:has(input:checked) > div:not([data-testid]) { border-color: #15803d !important; }
+
+/* 입력창: 흰 배경 + 테두리로 경계 표시, 높이 44px, 플레이스홀더 대비 4.83:1 */
+[data-testid="stTextInputRootElement"] {
+  min-height: 44px; background: #fff !important;
+  border: 1.5px solid #858c98 !important; border-radius: 10px;
+}
+[data-testid="stTextInputRootElement"]:focus-within {
+  border-color: #15803d !important; box-shadow: 0 0 0 3px rgb(21 128 61 / 0.2);
+}
+[data-testid="stTextInputRootElement"] input { background: #fff !important; }
+[data-testid="stTextInputField"]::placeholder { color: #6b7280 !important; opacity: 1; }
+
+@media (max-width: 480px) {
+  .block-container { padding-left: 1rem; padding-right: 1rem; padding-top: 1.5rem; }
+  h1 { font-size: 2rem !important; }
+  div[data-testid="stColumn"] button { padding: 0 0.5rem; }
+}
